@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34018.315
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transpilador", "Transpilador.csproj", "{A8A6B54A-6A2E-476D-95EB-80AF92921F55}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A8A6B54A-6A2E-476D-95EB-80AF92921F55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8A6B54A-6A2E-476D-95EB-80AF92921F55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8A6B54A-6A2E-476D-95EB-80AF92921F55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8A6B54A-6A2E-476D-95EB-80AF92921F55}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A1E272B8-06C6-478E-8C16-BB5B7A7A85E5}
+	EndGlobalSection
+EndGlobal
