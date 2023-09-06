@@ -1,11 +1,12 @@
 ﻿using Transpilador.CSharp;
+using Transpilador.Tests;
 using Transpilador.Transpile;
 
 var codePortugol = @"
     inteiro idade
     real altura, peso, imc
-    cadeia nome, prontuario
-    logico temPermissao
+    cadeia nome = ""Palinkas"", prontuario = ""CB12345678""
+    logico temPermissao = verdadeiro
 
     escreva(""Digite a idade"")
     leia(idade)
@@ -19,23 +20,23 @@ var codePortugol = @"
     escreva(""Digite o nome"")
     leia(nome)
 
-    escreva(""Digite o prontuario"")
-    leia(prontuario)
+    escreva(""peso: "", peso)
+    escreva(""altura: "", altura)
 
     imc = peso / (altura * altura)
+    
+    escreva(""imc: "", imc)
 
     escreva(""Nome: "", nome)
+    escreva(""prontuario: "", prontuario)
     escreva(""IMC: "", imc)
+    escreva(""temPermissao: "", temPermissao)
 ";
 var codeCSharp = TranspilePortugolToCSharp.Transpile(codePortugol);
 
-Console.WriteLine(codeCSharp);
-Console.WriteLine("\n\n\n\n============================\n\n\n\n");
-Console.WriteLine("Precione uma tecla para continuar...");
-Console.ReadKey();
+var compilation = CompileCSharp.Compile(codeCSharp);
 
-ExecuteCSharp.Execute(codeCSharp);
+var testImc = new CalculoImcTest(compilation);
+testImc.Run();
 
-Console.WriteLine("\n\n\n\n============================\n\n\n\n");
-Console.WriteLine("Precione uma tecla para continuar...");
 Console.ReadKey();

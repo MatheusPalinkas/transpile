@@ -35,7 +35,6 @@ namespace Transpilador.Transpile
             if (ConstTranspile.TYPES.Any(type => lineCode.Contains(type)))
                 return parserVariables(lineCode);
 
-
             if (lineCode.Contains(ConstTranspile.OUTPUT_COMMAND))
                 return parserOutput(lineCode);
 
@@ -48,17 +47,10 @@ namespace Transpilador.Transpile
             return lineCode;
         }
 
-
         private static string parserVariables(string lineCode)
         {
-            string[] parts = lineCode.Trim()
-                                         .Replace(",", " ")
-                                         .Split(" ")
-                                         .Where(part => !string.IsNullOrWhiteSpace(part))
-                                         .ToArray();
-
-            string type = parts[0];
-            string[] namesVariables = parts.Where(part => !ConstTranspile.TYPES.Any(type => part.Contains(type))).ToArray();
+            var (type, namesVariables) = separateDeclarationVariable(lineCode);
+            registerVariables(type, namesVariables);
 
             Dictionary<string, string> parserTypes = new Dictionary<string, string>()
                 {
@@ -68,11 +60,42 @@ namespace Transpilador.Transpile
                     { "logico", "bool" }
                 };
 
+
+            return $"{parserTypes[type]} {string.Join(", ", namesVariables)};";
+        }
+
+        private static (string, string[]) separateDeclarationVariable(string lineCode)
+        {
+            string type = lineCode.Trim().Substring(0, lineCode.Trim().IndexOf(" "));
+            string[] namesVariables = lineCode.Trim()
+                                              .Substring(lineCode.Trim().IndexOf(" "))
+                                              .Trim()
+                                              .Split(",")
+                                              .Select(variable => {
+                                                if(variable.Contains(ConstTranspile.TRUE_COMMAND) || variable.Contains(ConstTranspile.FALSE_COMMAND))
+                                                {
+                                                      variable = variable
+                                                                    .Replace(ConstTranspile.TRUE_COMMAND, "true")
+                                                                    .Replace(ConstTranspile.FALSE_COMMAND, "false");
+                                                }    
+
+                                                return variable.Trim();
+                                              })
+                                              .ToArray();
+
+            return (type, namesVariables);
+        }
+
+        private static void registerVariables(string type, string[] namesVariables)
+        {
             foreach (var nameVariable in namesVariables)
             {
-                variables.Add(nameVariable, type);
+                string variable = !nameVariable.Contains("=")
+                                    ? nameVariable
+                                    : nameVariable?.Split("=")?.FirstOrDefault() ?? "";
+
+                variables.Add(variable.Trim(), type);
             }
-            return $"{parserTypes[type]} {string.Join(", ", namesVariables)};";
         }
 
         private static string parserOutput(string lineCode)
